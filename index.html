@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nossa História ❤️</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&family=Poppins:wght@300;400&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --cor-fundo: #FFF5F5; 
+            --cor-card: #FFFFFF;  
+            --cor-texto: #4A3E3D; 
+            --cor-detalhes: #E8A7A1; 
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cor-fundo);
+            color: var(--cor-texto);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden;
+            padding: 15px;
+            position: relative;
+        }
+
+        .book-container {
+            width: 100%;
+            max-width: 400px;
+            height: 85vh;
+            max-height: 750px;
+            position: relative;
+            z-index: 2; 
+        }
+
+        .page {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: var(--cor-card);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(232, 167, 161, 0.15);
+            padding: 25px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            pointer-events: none;
+            transform: translateX(50px);
+            transition: all 0.4s ease-in-out;
+        }
+
+        .page.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: translateX(0);
+        }
+
+        .page.full-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.4)), url('assets/images/5 - Casamento/4 - Cas.jpg'); 
+            background-size: cover;
+            background-position: center;
+            color: #FFFFFF;
+            border: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+
+        .page.full-bg h1 {
+            color: #FFFFFF;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+            font-size: 2.8rem;
+            margin-top: 40px;
+        }
+
+        .page.full-bg p {
+            color: #FFFFFF;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.6);
+            font-size: 1.1rem;
+            max-height: 200px;
+            font-weight: 400;
+        }
+
+        .page.full-bg button {
+            background-color: #FFFFFF;
+            color: var(--cor-texto);
+            font-weight: 600;
+        }
+        .page.full-bg button.btn-back {
+            background-color: transparent;
+            color: #FFFFFF;
+            border: 1px solid #FFFFFF;
+        }
+
+        h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.3rem;
+            color: var(--cor-detalhes);
+            margin-bottom: 5px;
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.4rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        p {
+            font-size: 0.9rem;
+            line-height: 1.5;
+            font-weight: 300;
+            overflow-y: auto;
+            max-height: 110px;
+            padding-right: 5px;
+            width: 100%;
+        }
+
+        .media-gallery {
+            width: 100%;
+            height: 48%;
+            margin: 10px 0;
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scrollbar-width: none; 
+        }
+
+        .media-gallery::-webkit-scrollbar { display: none; }
+
+        .media-gallery img, .media-gallery video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            flex-shrink: 0;
+            scroll-snap-align: start;
+            background-color: #f9f9f9;
+        }
+
+        .gallery-tip {
+            font-size: 0.7rem;
+            color: var(--cor-detalhes);
+            margin-top: -8px;
+            margin-bottom: 5px;
+            opacity: 0.8;
+        }
+
+        .nav-buttons {
+            display: flex;
+            width: 100%;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 5px;
+        }
+
+        button {
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cor-detalhes);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 0.85rem;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+            box-shadow: 0 4px 10px rgba(232, 167, 161, 0.2);
+            flex: 1;
+            max-width: 150px;
+        }
+
+        button:hover { background-color: #d6938d; }
+        button.btn-back {
+            background-color: transparent;
+            color: var(--cor-detalhes);
+            border: 1px solid var(--cor-detalhes);
+            box-shadow: none;
+        }
+
+        .music-control {
+            position: absolute;
+            top: -35px;
+            right: 10px;
+            font-size: 0.75rem;
+            color: var(--cor-texto);
+            cursor: pointer;
+            opacity: 0.7;
+            z-index: 10;
+        }
+
+        .heart-confetti {
+            position: fixed;
+            color: #FF4757;
+            font-size: 20px;
+            user-select: none;
+            pointer-events: none;
+            z-index: 9999;
+            animation: fall linear forwards;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-5vh) translateX(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) translateX(var(--drift)) rotate(var(--rotation));
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- TAG DE ÁUDIO ALTERADA: REMOVIDO O LOOP PARA PERMITIR A TROCA AUTOMÁTICA -->
+    <audio id="background-music">
+        <source src="assets/audios/musica_1.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="book-container">
+        
+        <div class="music-control" onclick="toggleMute()">🎵 Música: Tocando</div>
+
+        <!-- PÁGINA 1: CAPA -->
+        <div class="page active" id="p1">
+            <div>
+                <h1>Nossa História</h1>
+                <p style="font-family: 'Playfair Display', serif; font-style: italic;">"De todos os caminhos do mundo, o meu favorito é o que me leva até você."</p>
+            </div>
+            <div class="media-gallery">
+                <img src="assets/images/4 - Pre Wedding/4 - PW.jpg" alt="Capa">
+            </div>
+            <p>Preparei esse espacinho para celebrar o nosso dia. Vamos relembrar nossa história?</p>
+            <p>Aumente o volume 🔊 e aperte o botão abaixo 👇🏻</p>
+            <div class="nav-buttons">
+                <button style="max-width: 200px;" onclick="startStory()">Começar a Jornada ❤️</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 2: NAMORO -->
+        <div class="page" id="p2">
+            <h2>O Começo de Tudo</h2>
+            <div class="media-gallery">
+                <img src="assets/images/1 - Namoro/1 - Nam.jpg" alt="Namoro 1">
+                <img src="assets/images/1 - Namoro/2 - Nam.jpg" alt="Namoro 2">
+                <img src="assets/images/1 - Namoro/3 - Nam.jpg" alt="Namoro 3">
+                <img src="assets/images/1 - Namoro/4 - Nam.jpg" alt="Namoro 4">
+                <img src="assets/images/1 - Namoro/5 - Nam.jpg" alt="Namoro 5">
+                <img src="assets/images/1 - Namoro/6 - Nam.jpg" alt="Namoro 6">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Nossa história começou com a frase mais impactante do mundo:
+                <strong>"Prazer, Muriel!"</strong> 😂<br>
+                Depois desse início tão surpreendente, começaram os likes no Facebook, que viraram conversas, que viraram um convite para o cinema... e em duas semanas, 
+                lá estávamos nós, namorando! <br>
+                A pior coisa que pode acontecer em um relacionamento aconteceu logo no início: o pneu do carro furou. 🤣<br>
+                Não sei o porque, mas fiquei com uma baita vergonha, aí soltei a nossa primeira grande piada interna: <em>"Namorar é isso: momentos bons e momentos ruins"</em>.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 3: PEDIDO DE CASAMENTO -->
+        <div class="page" id="p3">
+            <h2>O Grande "Sim!"</h2>
+            <div class="media-gallery">
+                <img src="assets/images/2 - Pedido Casamento/1 - PedC.jpg" alt="Pedido 1">
+                <img src="assets/images/2 - Pedido Casamento/2 - PedC.jpg" alt="Pedido 2">
+                <img src="assets/images/2 - Pedido Casamento/3 - PedC.jpg" alt="Pedido 3">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Para dar o passo mais importante das nossas vidas, eu sabia que precisávamos voltar para onde tudo começou.<br>
+                Por isso decidi te levar exatamente ao mesmo lugar do pedido de namoro, lá no Parque da Cidade.<br> 
+                Não foi preciso nada extravagante, assim como não precisamos até hoje. Tudo que precisávamos estava bem ali: Deus, você, eu, um anel de noivado e comida 😂.<br>
+                Eu estava muito nervoso, o coração batendo na boca, mas quando você disse SIM, o world parou.<br>
+                Ali foi o verdadeiro início do plano de Deus para nós, a certeza de que caminharíamos juntos para sempre.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 4: APARTAMENTO -->
+        <div class="page" id="p4">
+            <h2>Nosso Cantinho</h2>
+            <div class="media-gallery">
+                <img src="assets/images/3 - Apartamento/1 - Ape.jpg" alt="Apê 1">
+                <img src="assets/images/3 - Apartamento/2 - Ape.jpg" alt="Apê 2">
+                <img src="assets/images/3 - Apartamento/3 - Ape.jpg" alt="Apê 3">
+                <img src="assets/images/3 - Apartamento/4 - Ape.jpg" alt="Apê 4">
+                <img src="assets/images/3 - Apartamento/5 - Ape.jpg" alt="Apê 5">
+                <img src="assets/images/3 - Apartamento/6 - Ape.jpg" alt="Apê 6">
+                <img src="assets/images/3 - Apartamento/7 - Ape.jpg" alt="Apê 7">
+                <img src="assets/images/3 - Apartamento/8 - Ape.jpg" alt="Apê 8">
+                <img src="assets/images/3 - Apartamento/9 - Ape.jpg" alt="Apê 9">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Depois do pedido de casamento, demos um dos passos mais ousados: fomos ver o apartamento decorado. <br>
+                Olhamos o decorado uma vez e logo em seguida, lá estavamos nós fechando negócio — mesmo sem ter o dinheiro! Haha.<br>
+                Houve meses de sacrifício, onde a gente tinha exatamente <strong>R$ 200,00 por mês</strong> para gastar com lazer.<br>
+                Foram dias apertados, mas Deus proveu a alegria e cada centavo!<br>
+                Ele multiplicou tudo de maneira impressionante.<br>
+                A palavra é verdadeira quando diz: <em>"O meu Deus suprirá todas as vossas necessidades segundo as suas riquezas na glória em Cristo Jesus." (Filipenses 4:19)</em>.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 5: PRÉ WEDDING -->
+        <div class="page" id="p5">
+            <h2>Ensaiando o Futuro</h2>
+            <div class="media-gallery">
+                <img src="assets/images/4 - Pre Wedding/1 - PW.jpg" alt="Pré Wedding 1">
+                <img src="assets/images/4 - Pre Wedding/2 - PW.jpg" alt="Pré Wedding 2">
+                <img src="assets/images/4 - Pre Wedding/3 - PW.jpg" alt="Pré Wedding 3">
+                <img src="assets/images/4 - Pre Wedding/4 - PW.jpg" alt="Pré Wedding 4">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Decidimos fazer nosso ensaio em um lugar bem bonito: Iperó. O lugar em si era só o plano de fundo, o que brilhou de verdade foi o nosso amor e alegria que contagiavam.<br>
+                Estávamos rindo de tudo (como sempre) e nos preparando para o passo mais lindo que daríamos em breve.<br>
+                O resultado? Fotos que transbordavam o nosso amor, a nossa cumplicidade e a promessa de um futuro inteiro desenhado por Deus.<br>
+                Não é à toa que a gente ama e usa essas fotos até hoje! Cada foto já mostrava a nossa felicidade sendo eternizada.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 6: CASAMENTO -->
+        <div class="page" id="p6">
+            <h2>O Dia Mais Lindo</h2>
+            <div class="media-gallery">
+                <img src="assets/images/5 - Casamento/1 - Cas.jpg" alt="Casamento 1">
+                <img src="assets/images/5 - Casamento/2 - Cas.jpg" alt="Casamento 2">
+                <img src="assets/images/5 - Casamento/3 - Cas.jpg" alt="Casamento 3">
+                <img src="assets/images/5 - Casamento/4 - Cas.jpg" alt="Casamento 4">
+                <img src="assets/images/5 - Casamento/5 - Cas.jpg" alt="Casamento 5">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                O caminho até o casamento teve um obstacle que ninguém esperava: uma pandemia mundial.<br>
+                Tivemos que remarcar o casamento, mas até nisso Deus mostrou Seu cuidado.<br>
+                O grande dia foi perfeito, emocionante e transbordava a presença do Senhor.<br>
+                Poder abraçar nossa família, nossos amigos e celebrar o nosso amor, que estava mais intenso do que nunca, foi o dia mais feliz das nossas vidas.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 7: LUA DE MEL -->
+        <div class="page" id="p7">
+            <h2>Nossa Lua de Mel</h2>
+            <div class="media-gallery">
+                <img src="assets/images/6 - Lua de Mel/1 - Lua.jpeg" alt="Lua de Mel 1">
+                <img src="assets/images/6 - Lua de Mel/2 - Lua.jpeg" alt="Lua de Mel 2">
+                <img src="assets/images/6 - Lua de Mel/3 - Lua.jpeg" alt="Lua de Mel 3">
+                <img src="assets/images/6 - Lua de Mel/4 - Lua.jpeg" alt="Lua de Mel 4">
+                <img src="assets/images/6 - Lua de Mel/5 - Lua.jpeg" alt="Lua de Mel 5">
+                <img src="assets/images/6 - Lua de Mel/6 - Lua.jpeg" alt="Lua de Mel 6">
+                <img src="assets/images/6 - Lua de Mel/7 - Lua.jpeg" alt="Lua de Mel 7">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Nossos primeiros dias oficialmente casados foram no frio gostoso de Gramado!<br>
+                Nos acabamos nos rodízios de fondue, comemos muita pizza e nos apaixonamos pelo lugar (tanto que queremos voltar!).<br>
+                Não tem como pensar na lua de mel e não lembrar da sua relação com a banheira do hotel: você "nadou" bastante.<br>
+                E o mais engraçado foi que, no último dia, antes de irmos embora, você fez questão de acordar mais cedo só para dar o "último mergulho" da viagem. 😂
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 8: VIAGENS -->
+        <div class="page" id="p8">
+            <h2>Colecionando Destinos</h2>
+            <div class="media-gallery">
+                <img src="assets/images/7 - Viagens/1 - Viagens.jpg"  alt="Viagem 1">
+                <img src="assets/images/7 - Viagens/2 - Viagens.jpg"  alt="Viagem 2">
+                <img src="assets/images/7 - Viagens/3 - Viagens.jpg"  alt="Viagem 3">
+                <img src="assets/images/7 - Viagens/4 - Viagens.jpg"  alt="Viagem 4">
+                <img src="assets/images/7 - Viagens/5 - Viagens.jpg"  alt="Viagem 5">
+                <img src="assets/images/7 - Viagens/6 - Viagens.jpg"  alt="Viagem 6">
+                <img src="assets/images/7 - Viagens/7 - Viagens.jpg"  alt="Viagem 7">
+                <img src="assets/images/7 - Viagens/8 - Viagens.jpg"  alt="Viagem 8">
+                <img src="assets/images/7 - Viagens/9 - Viagens.jpg"  alt="Viagem 9">
+                <img src="assets/images/7 - Viagens/10 - Viagens.jpg" alt="Viagem 10">
+                <img src="assets/images/7 - Viagens/11 - Viagens.jpg" alt="Viagem 11">
+                <img src="assets/images/7 - Viagens/12 - Viagens.jpg" alt="Viagem 12">
+                <img src="assets/images/7 - Viagens/13 - Viagens.jpg" alt="Viagem 13">
+                <img src="assets/images/7 - Viagens/14 - Viagens.jpg" alt="Viagem 14">
+                <img src="assets/images/7 - Viagens/15 - Viagens.jpg" alt="Viagem 15">
+                <img src="assets/images/7 - Viagens/16 - Viagens.jpg" alt="Viagem 16">
+                <img src="assets/images/7 - Viagens/17 - Viagens.jpg" alt="Viagem 17">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Depois da lua de mel, nossa primeira viagem foi pra Bonito. Pagamos de ricos em um hotel chique (que pegamos na promoção antes de encarecer, claro! Haha).<br> 
+                Vimos jacarés, araras e até sucuri de perto.<br>
+                Depois, voamos para Natal e a adrenaline aumentou: andamos de quadriciclo nas falésias de Pipa e encaramos o 4x4 e o buggy nas dunas.<br>
+                Olhar para aquela imensidão de areia foi o momento mais impressionante de todos; não tinha como não enxergar a grandeza e a perfeição de Deus em cada grão.<br>
+                Como é bom poder descobrir o world ao seu lado! 😍
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 9: AVENTURAS -->
+        <div class="page" id="p9">
+            <h2>Parceiros de Aventuras</h2>
+            <div class="media-gallery">
+                <img src="assets/images/8 - Aventuras/1 - Avent.jpg" alt="Aventura 1">
+                <img src="assets/images/8 - Aventuras/2 - Avent.jpg" alt="Aventura 2">
+                <img src="assets/images/8 - Aventuras/3 - Avent.jpg" alt="Aventura 3">
+                <img src="assets/images/8 - Aventuras/4 - Avent.jpg"  alt="Aventura 4">
+                <img src="assets/images/8 - Aventuras/5 - Avent.jpg" alt="Aventura 5">
+                <img src="assets/images/8 - Aventuras/6 - Avent.jpg" alt="Aventura 6">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                A gente não para!<br>
+                Nossos passeios de bike costumam ser bem tranquilos, aqui pelas ruas perto de casa mesmo, mas sempre com emoção: você raspa o pneu na guia da calçada e eu não sei se vou dar risada ou ter que correr pra te socorrer.<br>
+                Agora... e a nossa trilha? Que loucura!<br>
+                Inventamos de andar nada menos que <strong>18 quilômetros</strong>.<br>
+                O líquido na minha perna não era suor, eram lágrimas, elas estavam chorando.<br>
+                O cansaço foi extremo, mas deu pra ver que a gente aguenta qualquer coisa juntos.<br>
+                Com você, até o cansaço vira motivo de alegria e riso.<br>
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 10: CINEMA E COMIDA -->
+        <div class="page" id="p10">
+            <h2>Nossa Rotina Favorita</h2>
+            <div class="media-gallery">
+                <img src="assets/images/9 - Cinema e Comida/1 - CineCom.jpg" alt="Cinema e Comida 1">
+                <img src="assets/images/9 - Cinema e Comida/2 - CineCom.jpg" alt="Cinema e Comida 2">
+                <img src="assets/images/9 - Cinema e Comida/3 - CineCom.jpg" alt="Cinema e Comida 3">
+                <img src="assets/images/9 - Cinema e Comida/4 - CineCom.jpg" alt="Cinema e Comida 4">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Tem duas coisas que a gente ama: <strong>Cinema</strong> e <strong>Comida!</strong><br>
+                Como é gostoso assistir um filme de desenho, ainda mais com a sua "pipoquinha delícia".<br>
+                Falando de comida, pelo menos uma vez no mês tem que rolar um Outback, nem que seja só pra um <strong>Havana Thunder</strong>!<br>
+                Dividir esses momentos simples com você é a melhor parte da vida.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 11: PRAIA -->
+        <div class="page" id="p11">
+            <h2>Nossa Vida na Praia</h2>
+            <div class="media-gallery">
+                <img src="assets/images/10 - Praia/1 - Praia.jpg"  alt="Praia 1">
+                <img src="assets/images/10 - Praia/2 - Praia.jpeg" alt="Praia 2">
+                <img src="assets/images/10 - Praia/3 - Praia.jpg"  alt="Praia 3">
+                <img src="assets/images/10 - Praia/4 - Praia.jpg"  alt="Praia 4">
+                <img src="assets/images/10 - Praia/5 - Praia.jpg"  alt="Praia 5">
+                <img src="assets/images/10 - Praia/6 - Praia.jpg"  alt="Praia 6">
+                <img src="assets/images/10 - Praia/7 - Praia.jpg"  alt="Praia 7">
+                <img src="assets/images/10 - Praia/8 - Praia.jpg"  alt="Praia 8">
+                <img src="assets/images/10 - Praia/9 - Praia.jpg"  alt="Praia 9">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Eu não tinha me dado conta, mas a gente vai bastante na praia, né?! 🤔<br>
+                E seja onde for: Praia Grande, Guarujá, Ubatuba... É sempre assim: eu quero ir pra água, mas também quero correr do sol, e você ativa o "modo lagarto" e fica esticada no sol torrando.<br>
+                O resultado é sempre o mesmo: você queima uns lugares que não dá pra saber como (peito do pé, panturrilha, orelha...), reclama que está ardendo, mas não adianta... na próxima vez, lá está você fritando de novo! 😂<br>
+                But sabe o que é o melhor de tudo? No meio da areia, do sal e do sol, sempre tem amor e alegria.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 12: CACHORROS -->
+        <div class="page" id="p12">
+            <h2>Nossos Amores de 4 Patas</h2>
+            <div class="media-gallery">
+                <img src="assets/images/11 - Cachorros/1 - Dog.jpg" alt="Dog 1">
+                <img src="assets/images/11 - Cachorros/2 - Dog.jpg" alt="Dog 2">
+                <img src="assets/images/11 - Cachorros/3 - Dog.jpg" alt="Dog 3">
+                <img src="assets/images/11 - Cachorros/4 - Dog.jpg" alt="Dog 4">
+                <img src="assets/images/11 - Cachorros/5 - Dog.jpg" alt="Dog 5">
+                <img src="assets/images/11 - Cachorros/6 - Dog.jpg" alt="Dog 6">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Nossa casa não seria completa sem um doguinho.<br>
+                A Judi entrou na nossa vida velhinha, foram apenas 5 meses juntos antes dela partir, mas foi tempo suficiente para vê-la se transformar, deixando o medo de lado para virar puro amor e companhia.<br>
+                Depois veio o Bentinho, nosso parceiro há 3 anos!<br>
+                Pegamos ele filhotinho e ele se tornou um poço de energia e inteligência que não cansa nunca. Seja cobrando o passeio, chamando para brincar de bolinha ou implorando para subir na cama.<br>
+                Às vezes ele encho o saco, mas o que ele sempre faz é encher nossos dias de alegria.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 13: LOUCURAS -->
+        <div class="page" id="p13">
+            <h2>Nossa Loucura</h2>
+            <div class="media-gallery">
+                <img src="assets/images/12 - Loucuras/1 - Louc.jpg" alt="Loucura 1">
+                <img src="assets/images/12 - Loucuras/2 - Louc.jpeg" alt="Loucura 2">
+                <img src="assets/images/12 - Loucuras/3 - Louc.jpeg" alt="Loucura 3">
+                <img src="assets/images/12 - Loucuras/4 - Louc.jpeg" alt="Loucura 4">
+                <img src="assets/images/12 - Loucuras/5 - Louc.jpeg" alt="Loucura 5">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Quem olha pra gente acha que somos normais, mas nós sabemos que não somos! Haha.<br>
+                A verdade é que a nossa vida é uma eterna palhaçada.<br>
+                Eu falo sozinho, faço piadas que você não acha graça, faço coreografias de músicas...<br>
+                Você fala dormindo, zoa da minha cara e faz umas coisas que não dá pra acreditar, tipo entrar do lado errado do carro e esperar alguém dirigir...<br>
+                Não temos uma única grande loucura para contar, porque escolhemos fazer de cada dia comum um motivo para dar risada juntos.<br>
+                E quer saber? Não troco a nossa loucura por nenhuma normalidade do world!
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button>
+            </div>
+        </div>
+
+        <!-- PÁGINA 14: NÓS 2 -->
+        <div class="page" id="p14">
+            <h2>Para Sempre, Nós Dois</h2>
+            <div class="media-gallery">
+                <img src="assets/images/13 - Nós 2/1 - N2.jpg" alt="Nós Dois 1">
+                <img src="assets/images/13 - Nós 2/2 - N2.jpg" alt="Nós Dois 2">
+                <img src="assets/images/13 - Nós 2/3 - N2.jpg" alt="Nós Dois 3">
+                <img src="assets/images/13 - Nós 2/4 - N2.jpg" alt="Nós Dois 4">
+                <img src="assets/images/13 - Nós 2/5 - N2.jpg" alt="Nós Dois 5">
+                <img src="assets/images/13 - Nós 2/6 - N2.jpg" alt="Nós Dois 6">
+                <img src="assets/images/13 - Nós 2/7 - N2.jpg" alt="Nós Dois 7">
+            </div>
+            <div class="gallery-tip">👉 Arraste para o lado para ver mais fotos</div>
+            <p>
+                Você é o presente mais precioso que Deus colocou na minha vida. Hoje eu tenho a certeza absoluta de que Ele não nos uniu 
+                apenas para estarmos juntos, mas porque temos um propósito e fazemos parte de uma grande obra que Ele desenhou para nós.<br>
+                Eu amo dividir a vida com você. Nem todos os dias são fáceis, mas no fim de cada noite, meu coração transborda de gratidão por ter você ao meu lado.<br>
+                Eu te amo como nunca amei e jamais vou amar ninguém nesta vida.<br>
+                Obrigado por ser minha parceira de risadas, de alegria e de choro.
+            </p>
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="nextPage()">Avançar</button> 
+            </div>
+        </div>
+
+        <!-- PÁGINA 15: GRAND FINALE -->
+        <div class="page full-bg" id="p15">
+            <h1>Feliz 5 Anos!</h1>
+            
+            <p style="font-size: 1.2rem; font-weight: 600; text-shadow: 0 2px 10px rgba(0,0,0,0.8);">
+                Eu te amo do tamanho do infinito... ou, melhor... <br>
+                <span style="font-family: 'Dancing Script', cursive; font-size: 2rem; color: #ffdde4; text-shadow: none; display: block; margin-top: 10px;">"Do tamanho do universo world!" ❤️</span>
+            </p>
+            
+            <div class="nav-buttons">
+                <button class="btn-back" onclick="prevPage()">Voltar</button>
+                <button onclick="restartStory()">Do Início 🔄</button>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 15; 
+        const music = document.getElementById('background-music');
+        let heartInterval; 
+        let isMuted = false; 
+
+        // 1. PLAYLIST CONFIGURADA VIA ARRAY NO JAVASCRIPT
+        let currentTrackIndex = 0;
+        const playlist = [
+            "assets/audios/musica_1.mp3",
+            "assets/audios/musica_2.mp3",
+            "assets/audios/musica_3.mp3"
+            // Você pode adicionar mais caminhos aqui no futuro se quiser, ex: "assets/audios/musica3.mp3"
+        ];
+
+        // 2. FUNÇÃO QUE INICIALIZA O REPRODUTOR DE MÚSICA
+        function inicializarReprodutor() {
+            // Evento disparado automaticamente pelo navegador assim que a música atual termina
+            music.onended = function() {
+                // Passa para o próximo índice. Se estourar o tamanho da lista, volta para 0
+                currentTrackIndex = (currentTrackIndex + 1) % playlist.length;
+                
+                music.src = playlist[currentTrackIndex];
+                music.load();
+                
+                // Se o usuário não tiver pausado manualmente, toca a próxima
+                if (!isMuted) {
+                    music.play().catch(e => console.log("Erro ao reproduzir próxima música:", e));
+                }
+            };
+        }
+
+        // Chamar a inicialização assim que o script carregar
+        inicializarReprodutor();
+
+        function startStory() {
+            if (!isMuted) {
+                // Garante que pega a primeira música da playlist caso mude algo
+                if (!music.src) {
+                    music.src = playlist[currentTrackIndex];
+                }
+                music.play().catch(e => console.log("Áudio aguardando interação."));
+            }
+            nextPage();
+        }
+
+        function nextPage() {
+            if (currentPage < totalPages) {
+                document.getElementById(`p${currentPage}`).classList.remove('active');
+                currentPage++;
+                document.getElementById(`p${currentPage}`).classList.add('active');
+                
+                const gallery = document.querySelector(`#p${currentPage} .media-gallery`);
+                if(gallery) gallery.scrollLeft = 0;
+
+                if (currentPage === 15) {
+                    iniciarChuvaDeCoracoes();
+                } else {
+                    pararChuvaDeCoracoes();
+                }
+            }
+        }
+
+        function prevPage() {
+            if (currentPage > 1) {
+                if (currentPage === 15) pararChuvaDeCoracoes();
+
+                document.getElementById(`p${currentPage}`).classList.remove('active');
+                currentPage--;
+                document.getElementById(`p${currentPage}`).classList.add('active');
+                
+                const gallery = document.querySelector(`#p${currentPage} .media-gallery`);
+                if(gallery) gallery.scrollLeft = 0;
+            }
+        }
+
+        function restartStory() {
+            pararChuvaDeCoracoes();
+            document.getElementById(`p${currentPage}`).classList.remove('active');
+            currentPage = 1;
+            document.getElementById(`p${currentPage}`).classList.add('active');
+        }
+
+        function toggleMute() {
+            const control = document.querySelector('.music-control');
+            if (music.paused) {
+                isMuted = false;
+                // Caso não tenha nenhum src carregado ainda (raro)
+                if (!music.src) {
+                    music.src = playlist[currentTrackIndex];
+                    music.load();
+                }
+                music.play();
+                control.innerText = "🎵 Música: Tocando";
+            } else {
+                isMuted = true;
+                music.pause();
+                control.innerText = "🔇 Música: Pausada";
+            }
+        }
+
+        function criarUmCoracao() {
+            const heart = document.createElement('div');
+            heart.classList.add('heart-confetti');
+            
+            const modelinhos = ['❤️', '💖', '💝', '💕'];
+            const cores = ['#FF4757', '#FF6B8B', '#FF85A2', '#E8A7A1'];
+            
+            heart.innerText = modelinhos[Math.floor(Math.random() * modelinhos.length)];
+            heart.style.color = cores[Math.floor(Math.random() * cores.length)];
+            
+            heart.style.left = Math.random() * 100 + 'vw';
+            heart.style.fontSize = Math.random() * 20 + 15 + 'px';
+            
+            const duracao = Math.random() * 3 + 3;
+            heart.style.animationDuration = duracao + 's';
+            
+            heart.style.setProperty('--drift', (Math.random() * 200 - 100) + 'px');
+            heart.style.setProperty('--rotation', (Math.random() * 360 - 180) + 'deg');
+            
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                heart.remove();
+            }, duracao * 1000);
+        }
+
+        function iniciarChuvaDeCoracoes() {
+            for(let i = 0; i < 15; i++) {
+                setTimeout(criarUmCoracao, Math.random() * 500);
+            }
+            heartInterval = setInterval(criarUmCoracao, 150);
+        }
+
+        function pararChuvaDeCoracoes() {
+            clearInterval(heartInterval);
+            const coracoesRestantes = document.querySelectorAll('.heart-confetti');
+            coracoesRestantes.forEach(c => c.remove());
+        }
+    </script>
+</body>
+</html>
